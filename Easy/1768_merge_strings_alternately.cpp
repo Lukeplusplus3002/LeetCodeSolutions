@@ -3,7 +3,7 @@
 using std::string;
 class Solution {
 public:
-    string mergeAlternately(string word1, string word2) {
+    string mergeAlternately(const string &word1, const string &word2) {
         const size_t word1Size{word1.size()}, word2Size{word2.size()};
         string merged(word1Size+word2Size, '\0');//the size of the merged string must be equal to the sum of both words' sizes
         size_t wordIndex{}, mergedIndex{};//wordIndex to access each character of word1 and word2, mergedIndex to access each character of the merged string
