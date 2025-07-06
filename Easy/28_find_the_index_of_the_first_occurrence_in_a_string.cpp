@@ -24,3 +24,12 @@ public:
         }
     }
 };
+/*
+The function below also works for this problem, but it defeats the purpose of learning.
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        return haystack.find(needle);
+    }
+};
+*/
