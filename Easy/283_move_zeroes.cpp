@@ -1,7 +1,7 @@
 //problem link: https://leetcode.com/problems/move-zeroes/
 #include<vector>
 using std::vector, std::swap; 
-//this solution performed better on LeetCode, but it's harder to read
+//this solution performed the best on LeetCode, but it's harder to read
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
@@ -43,6 +43,36 @@ public:
             }else if(zeroes!=0)//don't swap if there are no preceding zeroes
             {
                 swap(currentI, nums[i-zeroes]);
+            }
+        }
+    }
+};
+//the following solution is a mix of both
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        const size_t sizeOfNums{nums.size()};
+        size_t i{};
+        for(i; i<sizeOfNums-1; ++i)
+        {
+            if(nums[i]==0)
+            {
+                break;
+            }
+        }
+        if(i!=sizeOfNums-1)
+        {
+            size_t zeroes{1};
+            for(++i; i<sizeOfNums; ++i)
+            {
+                int &currentI{nums[i]};
+                if(currentI!=0)
+                {
+                    swap(currentI, nums[i-zeroes]);
+                }else
+                {
+                    ++zeroes;
+                }
             }
         }
     }
