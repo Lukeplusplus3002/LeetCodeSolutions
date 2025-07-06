@@ -5,5 +5,6 @@ Each problem solution is stored in a `.cpp` file, with the following naming form
 Within each source file, you'll find the link to the problem.
 
 I only include solutions that are fairly decent to me performance-wise, but keep in mind that I, as a *Homo sapiens*, can make mistakes when it comes to evaluating a solution's correctness and/or performance.
+Note that I might include more than one solution in a single file if both seem equally good to me performance-wise (time and space complexity).
 
 I'm open to connect with people on LinkedIn. [My LinkedIn account](https://www.linkedin.com/in/lucasa03)
