@@ -46,10 +46,8 @@ public:
         }
         //by this point, min actually holds the lowest value, while max actually holds the greatest value
         if((max-min) % lastIndex !=0)
-        /*
-        if diff isn't a whole number, an arithmetic progression is impossible 
-        see diff declaration below if the comment above is confusing
-        */
+        //if diff isn't a whole number, an arithmetic progression is impossible 
+        //see diff declaration below if the comment above is confusing
         {
             return false;
         }
