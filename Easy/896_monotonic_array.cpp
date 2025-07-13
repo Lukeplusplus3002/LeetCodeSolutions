@@ -28,3 +28,29 @@ public:
         return true;
     }
 };
+//here's another solution, much easier to read and just as efficient
+class Solution {
+public:
+    bool isMonotonic(const vector<int>& nums) {
+        bool increasing{1}, decreasing{1};
+        for(size_t i=1; i<nums.size(); ++i)
+        {
+            if(nums[i-1]-nums[i] > 0)
+            {
+                increasing=false;
+                if(!decreasing)//early exit when both are false
+                {
+                    break;
+                }
+            }else if(nums[i-1]-nums[i] < 0)
+            {
+                decreasing=false;
+                if(!increasing)//another early exit case
+                {
+                    break;
+                }
+            }
+        }
+        return increasing || decreasing;
+    }
+};
