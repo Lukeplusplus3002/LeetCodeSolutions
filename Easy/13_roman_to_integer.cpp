@@ -1,8 +1,6 @@
 #include<string>
 using std::string;
-class Solution {
-public:
-    int romanDigitToInt(const char digit){
+int romanDigitToInt(const char digit){//helper function
         switch(digit)
         {
             case 'I':
@@ -23,6 +21,8 @@ public:
                 return -1;                         
         }    
     }
+class Solution {//the first solution I came up with
+public:
     int romanToInt(const string &s) {
         int answer{};
         const size_t lastIndex{s.size()-1};
@@ -46,6 +46,37 @@ public:
             }else
             {
                 answer+=romanDigitToInt(current);
+            }
+        }
+        return answer;
+    }
+};
+class Solution {//this performed the best
+public:
+    int romanToInt(const string &s) {
+        int answer{romanDigitToInt(s[0])};
+        const size_t lastIndex{s.size()-1};
+        size_t i{1};
+        for(i; i<lastIndex; ++i)
+        {
+            const int current{romanDigitToInt(s[i])}, previous{romanDigitToInt(s[i-1])};
+            if(previous<current)
+            {
+                answer+=-2*previous+current+romanDigitToInt(s[i+1]);
+                ++i;
+                continue;
+            }
+            answer+=current;
+        }
+        if(i==lastIndex)
+        {
+            const int lastDigit{romanDigitToInt(s[lastIndex])}, secondToLastDigit{romanDigitToInt(s[lastIndex-1])};
+            if(secondToLastDigit<lastDigit)
+            {
+                answer+=-2*secondToLastDigit+lastDigit;
+            }else
+            {
+                answer+=lastDigit;
             }
         }
         return answer;
