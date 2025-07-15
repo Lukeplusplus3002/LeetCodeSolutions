@@ -60,8 +60,9 @@ public:
         size_t i{1};
         for(i; i<lastIndex; ++i)
         /*
-        note that i can end up being equal to either lastIndex or lastIndex+1 after the loop, depending on whether the last operation was a subtraction (lastIndex+1) or a simple 
-        addition (lastIndex).
+        note that i can end up being equal to either lastIndex or 
+        lastIndex+1 after the loop, depending on whether the last operation 
+        was a subtraction (lastIndex+1) or a simple addition (lastIndex).
         */
         {
             const int current{romanDigitToInt(s[i])}, previous{romanDigitToInt(s[i-1])};
@@ -69,8 +70,11 @@ public:
             {
                 answer+=-2*previous+current+romanDigitToInt(s[i+1]);
                 /*
-                subtract the previous digit twice, as it was added once before. Subtract it once to undo the previous addition, and then add current - previous to answer.
-                From there, you can add the next digit to answer, as it's impossible that the current digit subtracts the next one. Lastly, move the index two positions forward, as the next digit has already been processed.
+                subtract the previous digit twice, as it was added once before. 
+                Subtract it once to undo the previous addition, and then add current - previous 
+                to answer. From there, you can add the next digit to answer, as it's impossible
+                that the current digit subtracts the next one. Lastly, move the index two 
+                positions forward, as the next digit has already been processed.
                 */
                 ++i;
                 continue;
