@@ -2,7 +2,7 @@
 #include<string>
 using std::string;
 
-//straightforward solution. It's the best one for small input
+//straightforward solution
 class Solution1 {
 public:
     bool judgeCircle(const string& moves) {
