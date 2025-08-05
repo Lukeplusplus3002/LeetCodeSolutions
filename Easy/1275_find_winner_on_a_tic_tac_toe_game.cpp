@@ -2,9 +2,10 @@
 #include<array>
 #include<vector>
 #include<string>
+#include<bitset>
 using std::array, std::vector, std::string;
 //simple, readable, and efficient solution
-class Solution {
+class Solution1 {
 public:
     string tictactoe(const vector<vector<int>>& moves) {
         //I use std::array because this problem can entirely be solved using fixed-size containers
@@ -35,4 +36,40 @@ public:
             return (center=='X') ? "A" : "B";
         return (moves.size()==9) ? "Draw" : "Pending";
     }    
+};
+//Solution that uses std::bitset. Not very readable, but fun and decently efficient
+class Solution2 {
+public:
+    string tictactoe(const vector<vector<int>>& moves) {
+        std::bitset<18> grid{};
+        bool bTurn{};
+        /*
+        00 means empty cell
+        01 means O
+        10 means X
+        */
+        for(const auto &move: moves)
+        {
+            grid.set(move[0]*6+move[1]*2+bTurn);
+            bTurn=!bTurn;
+        }
+        //try to determine winner
+        
+        //check rows
+        for(uint8_t i{}; i<3; ++i)
+        {
+            if(grid[i*6]!=grid[i*6+1] && grid[i*6]==grid[i*6+2] && grid[i*6]!=grid[i*6+3] && grid[i*6]==grid[i*6+4] && grid[i*6]!=grid[i*6+5])
+                return (grid[i*6]==0b1) ? "A" : "B";
+        }
+        //check columns
+        for(uint8_t i{}; i<3; ++i)
+        {
+            if(grid[i*2]!=grid[i*2+1] && grid[i*2]==grid[i*2+6] && grid[i*2]!=grid[i*2+7] && grid[i*2]==grid[i*2+12] && grid[i*2]!=grid[i*2+13])
+                return (grid[i*2]==0b1) ? "A" : "B";
+        }
+        //check diagonals
+        if(grid[8]!=grid[9] && ((grid[8]==grid[0] && grid[9]==grid[1] && grid[8]==grid[16] && grid[9]==grid[17]) || (grid[8]==grid[4] && grid[9]==grid[5] && grid[8]==grid[12] && grid[9]==grid[13])))
+            return (grid[8]==0b1) ? "A" : "B";
+        return (moves.size()==9) ? "Draw" : "Pending";    
+    }
 };
