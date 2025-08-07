@@ -73,3 +73,44 @@ public:
         return (moves.size()==9) ? "Draw" : "Pending";    
     }
 };
+//solution using a couple of 8-bit integers and a 32-bit integer. Obscure but fun
+class Solution3 {
+public:
+//00 means empty, 01 means X, 10 means O
+    string tictactoe(const vector<vector<int>>& moves) {
+        uint32_t board{};
+        //fill board
+        bool bTurn{};
+        for(const auto &move : moves)
+        {
+            board+=0b1<<(move[0]*6+move[1]*2+bTurn);
+            bTurn=!bTurn;
+        }
+        //check rows
+        for(uint8_t i{}; i<3; ++i)
+        {
+            const uint8_t row{static_cast<uint8_t>(0b111111 & (board>>(i*6)))};
+            if(row==0b101010)
+                return "B";
+            if(row==0b10101)
+                return "A";    
+        }
+        //check columns
+        for(uint8_t i{}; i<3; ++i)
+        {
+            const uint8_t column{static_cast<uint8_t>((0b11 & (board>>(i*2))) + ((0b11 & (board>>(6+i*2)))<<2) + ((0b11 & (board>>(12+i*2)))<<4))};
+            if(column==0b101010)
+                return "B";
+            if(column==0b10101)
+                return "A";    
+        }
+        //check diagonals
+        const uint8_t mainDiagonal{static_cast<uint8_t>((0b11 & board) + ((0b11 & (board>>8))<<2) + ((0b11 & (board>>16))<<4))}, 
+        secondaryDiagonal{static_cast<uint8_t>((0b11 & (board>>4)) + ((0b11 & (board>>8))<<2) + ((0b11 & (board>>12))<<4))};
+        if(mainDiagonal==0b101010 || secondaryDiagonal==0b101010)
+            return "B";
+        if(mainDiagonal==0b10101 || secondaryDiagonal==0b10101)
+            return "A";   
+        return (moves.size()==9) ? "Draw" : "Pending";
+    }
+};
