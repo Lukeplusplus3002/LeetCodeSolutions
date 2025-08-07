@@ -42,12 +42,22 @@ class Solution2 {
 public:
     string tictactoe(const vector<vector<int>>& moves) {
         std::bitset<18> grid{};
-        bool bTurn{};
         /*
+        There are nine boxes and each box has two bits:
         00 means empty cell
         01 means O
         10 means X
+        Notice that the 2D grid is represented as a flat sequence of bits. The first six bits represent the
+        first row, the next six bits the second row, and the last six bits the third row. So, bits are 
+        as follows: 000000 000000 000000. Note that there are three groups of six bits. The first two bits
+        of each group represent the first column, while the following two bits of each group represent the
+        second column; as you may've already guessed, the last two bits of each group represent the third
+        column. Also, the first pair of bits of the first group combined with the second pair of bits of
+        the second group and the third pair of bits of the third group form the main diagonal, while the 
+        third pair of the first group combined with the second pair of the second group and the first pair
+        of the third group form the secondary diagonal.
         */
+        bool bTurn{};
         for(const auto &move: moves)
         {
             grid.set(move[0]*6+move[1]*2+bTurn);
@@ -58,22 +68,31 @@ public:
         //check rows
         for(uint8_t i{}; i<3; ++i)
         {
+            //in this if, grid[i*6] is the first bit of each row, which is compared with other bits
+            //from the same row to see if the latter is 101010 or 010101
             if(grid[i*6]!=grid[i*6+1] && grid[i*6]==grid[i*6+2] && grid[i*6]!=grid[i*6+3] && grid[i*6]==grid[i*6+4] && grid[i*6]!=grid[i*6+5])
                 return (grid[i*6]==0b1) ? "A" : "B";
         }
         //check columns
         for(uint8_t i{}; i<3; ++i)
         {
+            //Here, grid[i*2] is the first bit of the first pair of bits of the current column.
+            //It's compared with its next bit and all bits from the same column, following the rules
+            //I explained at the beginning of the solution.
             if(grid[i*2]!=grid[i*2+1] && grid[i*2]==grid[i*2+6] && grid[i*2]!=grid[i*2+7] && grid[i*2]==grid[i*2+12] && grid[i*2]!=grid[i*2+13])
                 return (grid[i*2]==0b1) ? "A" : "B";
         }
         //check diagonals
+        //grid[8] and grid[9] are the bits of the center cell. They're both involved with both the main
+        //and secondary diagonal.
         if(grid[8]!=grid[9] && ((grid[8]==grid[0] && grid[9]==grid[1] && grid[8]==grid[16] && grid[9]==grid[17]) || (grid[8]==grid[4] && grid[9]==grid[5] && grid[8]==grid[12] && grid[9]==grid[13])))
             return (grid[8]==0b1) ? "A" : "B";
         return (moves.size()==9) ? "Draw" : "Pending";    
     }
 };
 //solution using a couple of 8-bit integers and a 32-bit integer. Obscure but fun
+//if this solution seems confusing, check out the comments from solution 2. This solution follows the
+//same logic
 class Solution3 {
 public:
 //00 means empty, 01 means X, 10 means O
@@ -98,6 +117,13 @@ public:
         //check columns
         for(uint8_t i{}; i<3; ++i)
         {
+            /*
+            Notice that: 
+                (0b11 & (board>>(i*2))) is the cell of the current column from row 1
+                (0b11 & (board>>(6+i*2))) is the cell of the column from row 2
+                (0b11 & (board>>(12+i*2))) is the cell of the column from row 3
+            <<2 and <<4 are used so the bits are stored in the integer at different positions
+            */
             const uint8_t column{static_cast<uint8_t>((0b11 & (board>>(i*2))) + ((0b11 & (board>>(6+i*2)))<<2) + ((0b11 & (board>>(12+i*2)))<<4))};
             if(column==0b101010)
                 return "B";
@@ -105,7 +131,15 @@ public:
                 return "A";    
         }
         //check diagonals
-        const uint8_t mainDiagonal{static_cast<uint8_t>((0b11 & board) + ((0b11 & (board>>8))<<2) + ((0b11 & (board>>16))<<4))}, 
+        /*
+        Lastly, notice here that:
+            (0b11 & board) is the top-left cell
+            (board>>16) is the bottom-right cell
+            (0b11 & (board>>4)) is the top-right cell
+            (0b11 & (board>>12)) is the bottom-left cell
+            (0b11 & (board>>8)) is the center cell
+        */
+        const uint8_t mainDiagonal{static_cast<uint8_t>((0b11 & board) + ((0b11 & (board>>8))<<2) + ((board>>16)<<4))}, 
         secondaryDiagonal{static_cast<uint8_t>((0b11 & (board>>4)) + ((0b11 & (board>>8))<<2) + ((0b11 & (board>>12))<<4))};
         if(mainDiagonal==0b101010 || secondaryDiagonal==0b101010)
             return "B";
