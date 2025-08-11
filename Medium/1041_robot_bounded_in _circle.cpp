@@ -100,3 +100,28 @@ public:
         return direction % 2!=0 || direction % 4==0 || (x==0 && y==0);
     }
 };
+class Solution3 {
+public:
+    bool isRobotBounded(const string& instructions) {
+        int8_t x{}, y{};
+        //0 is south, 1 is west, 2 is north, and 3 is east
+        uint8_t direction{2};//from 0 to 255
+        for(const auto &ins : instructions)
+        {
+            if(ins=='G')
+            {
+                if(direction & 1)
+                {
+                    x+=1-2*(((direction+1) & 0b11) != 0);
+                }else
+                {
+                    y+=1-2*((direction & 0b11) ==0);
+                }
+                continue;
+            }
+            direction+=1-2*static_cast<bool>((ins-'R'));
+        }
+
+        return (direction & 1) || (direction & 0b11)==0 || (x==0 && y==0);
+    }
+};
