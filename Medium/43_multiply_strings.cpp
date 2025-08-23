@@ -2,6 +2,8 @@
 #include<string>
 #include<string_view>
 using std::string, std::string_view;
+//I'd like to implement a Fast Fourier Transform algorithm in the future, which is, in theory, faster than
+//Solution1 in terms of time complexity. It's overkill for LeetCode but worth knowing
 class Solution1 {
 public:
     string multiply(const string& num1, const string& num2) {
