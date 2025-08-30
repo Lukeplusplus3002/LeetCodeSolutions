@@ -1,7 +1,36 @@
 //problem link: https://leetcode.com/problems/powx-n/
 #include <cstdint>
-class Solution {
+//short and standard solution. I came up with it in my second try (once I understood the logic behind the standard solution)
+class Solution1 {
 public:
+/*
+    This solution is about treating the exponent as the sum of powers of two (2^0 + 2^1 + 2^2...).
+    For example, x^13 can be interpreted as (x^8)(x^4)(x^1). To do that, you need to take into account the 
+    exponent in its binary form; 13, for example, is 100010001. So, what this algorithm does is traveling the
+    individual bits of the exponent from least significant bit to most significant bit. Regardless of the
+    state of the current bit, x is always multiplied by itself on each iteration, so it starts being x^1 and
+    then x^2, x^4, x^8, etc. This maps the binary representation of the exponent perfectly. Only when the
+    current bit of the exponent is set do you multiply answer by x to the power of whatever exponent it
+    currently has.
+*/
+    double myPow(double x, const int& n) {
+        unsigned int exp{static_cast<unsigned int>((n<0) ? ((n==-2147483648) ? 2147483648 : -n) : n)};
+        if(n<0)
+            x=1/x;
+        double answer{1.0};    
+        while(exp>0)
+        {
+            if(exp & 1)
+                answer*=x;
+            x*=x;
+            exp>>=1;
+        }
+        return answer;    
+    }
+};
+class Solution2 {
+public:
+//This is the first algorithm I came up with. It's less readable but still does the job well.
     double myPow(double x, const int& n) {    
         if(n==1)
             return x;
