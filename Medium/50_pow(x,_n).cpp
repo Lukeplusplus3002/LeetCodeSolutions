@@ -6,7 +6,7 @@ public:
 /*
     This solution is about treating the exponent as the sum of powers of two (2^0 + 2^1 + 2^2...).
     For example, x^13 can be interpreted as (x^8)(x^4)(x^1). To do that, you need to take into account the 
-    exponent in its binary form; 13, for example, is 100010001. So, what this algorithm does is traveling the
+    exponent in its binary form; 13, for example, is 1101. So, what this algorithm does is traveling the
     individual bits of the exponent from least significant bit to most significant bit. Regardless of the
     state of the current bit, x is always multiplied by itself on each iteration, so it starts being x^1 and
     then x^2, x^4, x^8, etc. This maps the binary representation of the exponent perfectly. Only when the
@@ -14,6 +14,11 @@ public:
     currently has.
 */
     double myPow(double x, const int& n) {
+        /*
+            The variable exp takes the unsigned version of n. Notice that -1 times n is invalid if n is 
+            INT_MIN, as -1 times n has to be an 32-bit int (-INT_MIN cannot be represented with a 32-bit
+            integer, as INT_MAX=-INT_MIN-1)            
+        */
         unsigned int exp{static_cast<unsigned int>((n<0) ? ((n==-2147483648) ? 2147483648 : -n) : n)};
         if(n<0)
             x=1/x;
@@ -38,7 +43,6 @@ public:
             return 1/x;
         else if(n==0)
             return 1;
-        //N takes the unsigned version of n. Notice that -1 times n is invalid if n is INT_MIN            
         const unsigned int N{static_cast<unsigned int>((n<0) ? ((n==-2147483648) ? 2147483648 : -n) : n)};
         if(n<0)//to avoid creating separate code when n<0
             x=1/x;
