@@ -1,10 +1,6 @@
 #include<cmath>
 #include<numeric>
 using std::sqrt;
-/*
-    Whoever thought this was an easy problem has serious mental health issues. Clearly a troll who vibe
-    codes.
-*/
 class Solution1 {
 public:
 //This is an O(n^2) time complexity solution. It's efficient given the constraints, but it's hard for me 
@@ -49,3 +45,4 @@ public:
         return count;
     }
 };
+//A solution more efficient runtime-wise is pending...
