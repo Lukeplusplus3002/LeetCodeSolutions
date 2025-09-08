@@ -1,6 +1,5 @@
 #include<vector>
-#include<array>
-using std::vector, std::array;
+using std::vector;
 class Solution1 {
 public:
 //O(m*n) time complexity, O(n) space complexity. Extremely readable and short
