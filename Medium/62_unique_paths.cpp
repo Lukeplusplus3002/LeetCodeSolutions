@@ -1,4 +1,5 @@
 #include<vector>
+#include<cmath>
 using std::vector;
 class Solution1 {
 public:
@@ -19,5 +20,27 @@ public:
             */
         }
         return row[n-1];//return the last cell of the last row
+    }
+};
+class Solution2 {
+public:
+    //Most efficient solution: a one-liner. O(m+n) time complexity, O(1) space complexity
+    /*
+        This is a solution that uses the combinatorics formula:
+            (m+n-2)!/((n-1)!*(m-1)!)
+        All paths have n-1 steps to the right, m-1 steps downwards. Different paths are just different
+        sequences of steps (right and down steps taken in different order). So, to count the number of unique paths, you just need to compute the following:
+            -Total number of steps: m+n-2
+            -Number of times steps to the right repeat: n-1
+            -Number of times steps downwards repeat: m-1
+        It's basically asking how many ordered sets can represent the robot's path, with n-1 steps
+        right and m-1 steps down.
+        If you find this confusing, pick up a book on discrete math that talks about combinatorics,
+        that'll fix your confusion. Once you internalize combinatorics, this exercise is easy.         
+    */
+    int uniquePaths(const int& m, const int& n) {
+        //The +0.5 is due to floating-point arithmetic imprecision.
+        //This algorithm works as long as the expression next to +0.5 has an accuracy of +-0.5
+        return std::tgamma(m+n-1)/(std::tgamma(n)*std::tgamma(m))+0.5;
     }
 };
